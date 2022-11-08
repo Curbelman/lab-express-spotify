@@ -56,7 +56,7 @@ let artistId;
 let artistAlbums;
 
 app.get('/albums/:artistId', (req, res) => {
-    artistId = req.params.artistid;
+    artistId = req.params.artistId;
     spotifyApi
     .getArtistAlbums(req.params.artistId)
     .then ((data) => {
@@ -65,6 +65,16 @@ app.get('/albums/:artistId', (req, res) => {
         res.render('albums', {artistAlbums})
     })
     .catch(err => console.log('There was an error retrieving the albums', err));
+})
+
+app.get('/tracks/:albumId', (req, res) => {
+    spotifyApi
+    .getAlbumTracks(req.params.albumId)
+    .then((data) => {
+        trackList = data.body.items;
+        res.render('tracks', {trackList})
+    })
+    .catch(err => console.log('There was an error retrieving the tracks', err));
 })
 
 

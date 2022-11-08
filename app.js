@@ -45,10 +45,26 @@ app.get('/artist-search', (req, res) => {
     .then(data => {
         console.log (kirbyDance(5))
         console.log('The received data from the API: ', data.body)
+        console.log('Items inside', data.body.items)
         searchResult = data.body.artists.items
     })
     .then(() => res.render('artist-search-results', {searchResult}))
     .catch(err => console.log('An error occurred', err));
+})
+
+let artistId;
+let artistAlbums;
+
+app.get('/albums/:artistId', (req, res) => {
+    artistId = req.params.artistid;
+    spotifyApi
+    .getArtistAlbums(req.params.artistId)
+    .then ((data) => {
+        console.log('data received', data.body.items)
+        artistAlbums = data.body.items;
+        res.render('albums', {artistAlbums})
+    })
+    .catch(err => console.log('There was an error retrieving the albums', err));
 })
 
 

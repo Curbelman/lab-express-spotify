@@ -3,7 +3,7 @@ require('dotenv').config();
 const bodyParser = require('body-parser');
 const express = require('express');
 const hbs = require('hbs');
-const kirbyDance = require ('kirby-dance');
+//const kirbyDance = require ('kirby-dance');
 
 
 // require spotify-web-api-node package here:
@@ -43,7 +43,7 @@ app.get('/artist-search', (req, res) => {
     spotifyApi
     .searchArtists(artistSearched)
     .then(data => {
-        console.log (kirbyDance(5))
+        //console.log (kirbyDance(5))
         console.log('The received data from the API: ', data.body)
         console.log('Items inside', data.body.items)
         searchResult = data.body.artists.items
@@ -56,6 +56,7 @@ let artistId;
 let artistAlbums;
 
 app.get('/albums/:artistId', (req, res) => {
+    console.log('Req.params are', req.params)
     artistId = req.params.artistId;
     spotifyApi
     .getArtistAlbums(req.params.artistId)
@@ -67,11 +68,13 @@ app.get('/albums/:artistId', (req, res) => {
     .catch(err => console.log('There was an error retrieving the albums', err));
 })
 
+
 app.get('/tracks/:albumId', (req, res) => {
     spotifyApi
     .getAlbumTracks(req.params.albumId)
     .then((data) => {
         trackList = data.body.items;
+        console.log('The tracks are:', trackList)
         res.render('tracks', {trackList})
     })
     .catch(err => console.log('There was an error retrieving the tracks', err));

@@ -1,11 +1,16 @@
-<h2>Tracks for {{albumId}}</h2>
+<h2>Tracks for Album</h2>
 
-<div>
-    {{#each albumTracks}}
-    <div>
+<ul>
+    {{#each trackList}}
+    <li>
         <h3>{{this.name}}</h3>
-        <img src="{{this.image.[1].url}}" width="100" height="175"/>
-        <a href='/tracks/{{this.id}}'><button>View Tracks</button></a>
-    </div>
+        {{#if this.preview_url}}
+         <audio controls>
+             <source src="{{this.preview_url}}" type="audio/mpeg">
+         </audio>
+         {{else}}
+         <p>NO PREVIEW AVAILABLE!</p>
+         {{/if}}
+    </li>
     {{/each}}
-</div>
+</ul>
